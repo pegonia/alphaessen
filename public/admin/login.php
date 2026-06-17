@@ -4,11 +4,13 @@
  */
 
 use Alphaessen\Services\AdminAuthService;
+use Alphaessen\Services\CsrfService;
 use Alphaessen\Repositories\AdminRepository;
 
 // Services initialisieren
 $adminRepository = new AdminRepository();
 $adminAuthService = new AdminAuthService($adminRepository);
+$csrfService = new CsrfService();
 
 // Falls bereits angemeldet, zum Dashboard weiterleiten
 if ($adminAuthService->istAngemeldet()) {
@@ -49,6 +51,7 @@ unset($_SESSION['admin_login_fehler']);
                 <?php endif; ?>
 
                 <form method="post" action="/admin/login">
+                    <?php echo $csrfService->getTokenInput(); ?>
                     <div class="form-group">
                         <label for="benutzername">Benutzername:</label>
                         <input type="text" id="benutzername" name="benutzername" 
