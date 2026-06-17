@@ -77,14 +77,18 @@ class CsrfService
     }
 
     /**
-     * Generiert ein neues Token und gibt es als HTML-Hidden-Input zurück
+     * Gibt das aktuelle CSRF-Token als HTML-Hidden-Input zurück
+     * Generiert ein neues Token, falls keins existiert
      * 
      * @return string HTML-Code für das Hidden-Input-Feld
      */
     public function getTokenInput(): string
     {
-        $token = $this->generateToken();
-        $_SESSION[$this->sessionKey . '_time'] = time();
+        $token = $this->getToken();
+        if ($token === null) {
+            $token = $this->generateToken();
+            $_SESSION[$this->sessionKey . '_time'] = time();
+        }
         return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
     }
 

@@ -10,6 +10,11 @@ use Alphaessen\Repositories\AdminRepository;
 use Alphaessen\Repositories\SpeiseplanRepository;
 use Alphaessen\Repositories\EssenRepository;
 
+// Session starten (falls nicht bereits gestartet)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Services initialisieren
 $adminRepository = new AdminRepository();
 $adminAuthService = new AdminAuthService($adminRepository);

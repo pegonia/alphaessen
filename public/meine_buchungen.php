@@ -13,6 +13,11 @@ use Alphaessen\Repositories\NutzerRepository;
 use Alphaessen\Repositories\EmailQueueRepository;
 use Alphaessen\Services\EmailService;
 
+// Session starten (falls nicht bereits gestartet)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Services initialisieren
 $essenRepository = new EssenRepository();
 $speiseplanRepository = new SpeiseplanRepository($essenRepository);
