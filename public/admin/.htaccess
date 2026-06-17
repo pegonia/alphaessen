@@ -1,25 +1,12 @@
 # Admin-specific .htaccess
 # Additional security for admin area
 
-# Require authentication for all admin pages
-AuthType Basic
-AuthName "Alphaessen Admin"
-AuthUserFile /var/www/alphaessen/.htpasswd
-Require valid-user
-
-# Block all access if not authenticated
-Order Deny,Allow
-Deny from all
-Allow from env=REDIRECT_STATUS
-
-# Additional security headers
+# Security Headers
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "DENY"
     Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
 </IfModule>
 
-# Disable PHP execution in upload directories
-<FilesMatch "\.php$">
-    Deny from all
-</FilesMatch>
+# Disable directory listing
+# Options -Indexes

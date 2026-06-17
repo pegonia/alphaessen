@@ -91,7 +91,7 @@ krsort($buchungenNachJahr);
                         <?php foreach ($wochen as $woche => $wochenBuchungen): ?>
                             <?php 
                             $datum = $speiseplanService->getDatumFuerWoche($woche, $jahr);
-                            sort($wochenBuchungen, function($a, $b) {
+                            usort($wochenBuchungen, function($a, $b) {
                                 return strcmp($a->speiseplanEintrag->essen->typ, $b->speiseplanEintrag->essen->typ);
                             });
                             ?>

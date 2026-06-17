@@ -83,7 +83,10 @@ class CsrfService
      */
     public function getTokenInput(): string
     {
-        $token = $this->generateToken();
+        $token = $this->getToken();
+        if (!$token) {
+            $token = $this->generateToken();
+        }
         $_SESSION[$this->sessionKey . '_time'] = time();
         return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
     }

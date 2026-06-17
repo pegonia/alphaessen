@@ -5,20 +5,23 @@
     RewriteEngine On
     
     # Redirect to HTTPS if available
-    RewriteCond %{HTTPS} off
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    #RewriteCond %{HTTPS} off
+    #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     
     # Block access to non-public directories
     RewriteRule ^(src|config|storage|cron|scripts) - [F,L]
     
     # Remove trailing slashes
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.+)/$ /$1 [R=301,L]
+    #RewriteCond %{REQUEST_FILENAME} !-d
+    #RewriteRule ^(.+)/$ /$1 [R=301,QSA]
     
-    # Route all requests to index.php (except existing files)
+    RewriteRule ^admin(/.*|)$ /index.php?path=/admin$1 [L,QSA]
+
+    # Route all other requests to index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?path=$1 [QSA,L]
+    RewriteRule ^(.*)$ index.php?path=$1 [L,QSA]
+
 </IfModule>
 
 # Security Headers
@@ -33,7 +36,8 @@
 Options -Indexes
 
 # Deny access to sensitive files
-<FilesMatch "\.(php|inc|conf|sql|log|db|sqlite)$">
+# Deny access to sensitive files (allow PHP)
+<FilesMatch "\.(inc|conf|sql|log|db|sqlite)$">
     Order Deny,Allow
     Deny from all
 </FilesMatch>

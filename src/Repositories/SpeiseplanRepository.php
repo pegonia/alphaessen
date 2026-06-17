@@ -77,7 +77,7 @@ class SpeiseplanRepository
     public function findeNachWocheUndJahr(int $woche, int $jahr): array
     {
         $stmt = Database::query(
-            "SELECT * FROM speiseplan WHERE woche = :woche AND jahr = :jahr ORDER BY typ, name",
+            "SELECT speiseplan.* FROM speiseplan JOIN essen ON speiseplan.essen_id = essen.id WHERE woche = :woche AND jahr = :jahr ORDER BY essen.typ, essen.name",
             ['woche' => $woche, 'jahr' => $jahr]
         );
 
@@ -101,7 +101,7 @@ class SpeiseplanRepository
     public function findeNachJahr(int $jahr): array
     {
         $stmt = Database::query(
-            "SELECT * FROM speiseplan WHERE jahr = :jahr ORDER BY woche, typ, name",
+            "SELECT speiseplan.* FROM speiseplan JOIN essen ON speiseplan.essen_id = essen.id WHERE jahr = :jahr ORDER BY woche, essen.typ, essen.name",
             ['jahr' => $jahr]
         );
 
@@ -264,6 +264,16 @@ class SpeiseplanRepository
         return (int)$stmt->fetch()['count'];
     }
 
+    public function zaehleNachJahr(int $jahr): int
+    {
+        $stmt = Database::query(
+            "SELECT COUNT(*) as count FROM speiseplan WHERE jahr = :jahr",
+            ['jahr' => $jahr]
+        );
+
+        return (int)$stmt->fetch()['count'];
+    }
+
     /**
      * Gibt alle Einträge zurück
      * 
@@ -271,7 +281,7 @@ class SpeiseplanRepository
      */
     public function findeAlle(): array
     {
-        $stmt = Database::query("SELECT * FROM speiseplan ORDER BY jahr DESC, woche, typ, name");
+        $stmt = Database::query("SELECT speiseplan.* FROM speiseplan JOIN essen ON speiseplan.essen_id = essen.id ORDER BY jahr DESC, woche, essen.typ, essen.name");
 
         $eintraege = [];
         while ($data = $stmt->fetch()) {

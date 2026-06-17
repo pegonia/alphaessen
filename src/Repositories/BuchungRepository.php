@@ -323,6 +323,18 @@ class BuchungRepository
         return (int)$stmt->fetch()['count'];
     }
 
+    // In BuchungRepository.php
+    public function zaehleNachJahr(int $jahr): int
+    {
+        $stmt = Database::query(
+        "SELECT COUNT(*) as count FROM buchungen b 
+             JOIN speiseplan sp ON b.speiseplan_id = sp.id 
+             WHERE sp.jahr = :jahr",
+            ['jahr' => $jahr]
+        );
+        return (int)$stmt->fetch()['count'];
+    }
+
     /**
      * Gibt alle Buchungen zurück
      * 
@@ -376,4 +388,6 @@ class BuchungRepository
 
         return $stmt->rowCount() > 0;
     }
+
+
 }

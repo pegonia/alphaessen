@@ -35,6 +35,7 @@ try {
     foreach ($statements as $statement) {
         $statement = trim($statement);
         if (!empty($statement)) {
+            echo "Fhre aus: $statement\n";
             Database::query($statement);
         }
     }

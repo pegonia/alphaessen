@@ -86,7 +86,7 @@ class Database
      * @param array $params Die Parameter für die Abfrage
      * @return PDOStatement Das vorbereitete Statement
      */
-    public static function query(string $sql, array $params = []): PDOStatement
+    public static function query(string $sql, array $params = []): \PDOStatement
     {
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);

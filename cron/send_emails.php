@@ -5,7 +5,7 @@
  * Usage: php /var/www/alphaessen/cron/send_emails.php
  * 
  * Dieser Cronjob sollte alle 5 Minuten ausgeführt werden:
- * */5 * * * * php /var/www/alphaessen/cron/send_emails.php
+ * *\/5 * * * * php /var/www/alphaessen/cron/send_emails.php
  */
 
 require_once __DIR__ . '/../src/Autoloader.php';

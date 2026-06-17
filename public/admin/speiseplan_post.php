@@ -2,14 +2,14 @@
 /**
  * speiseplan_post.php - Verarbeitet Speiseplan-Formulare
  */
-
 use Alphaessen\Services\AdminAuthService;
 use Alphaessen\Services\SpeiseplanService;
 use Alphaessen\Services\CsrfService;
 use Alphaessen\Repositories\AdminRepository;
 use Alphaessen\Repositories\SpeiseplanRepository;
 use Alphaessen\Repositories\EssenRepository;
-
+error_log("Es kommt als Anfrage: ".var_export($_REQUEST,true));
+error_log("In der Session steht: ".var_export($_SESSION,true));
 // Services initialisieren
 $adminRepository = new AdminRepository();
 $adminAuthService = new AdminAuthService($adminRepository);

@@ -4,12 +4,10 @@
  * 
  * Dieser Router leitet Anfragen an die entsprechenden Controller weiter.
  */
-
 // Error Reporting (nur in Entwicklungsumgebung)
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/../storage/logs/php_errors.log');
-
 // Autoloader laden
 require_once __DIR__ . '/../src/Autoloader.php';
 
@@ -25,6 +23,8 @@ $emailConfig = require __DIR__ . '/../config/email.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+#print_r($_REQUEST);
+#print_r($_SESSION);
 
 // Request-Pfad analysieren
 $path = $_GET['path'] ?? '/';
@@ -34,12 +34,12 @@ $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $routes = [
     // Frontend-Routen
     'GET /' => 'speiseplan_kalender',
-    'GET /kalender' => 'speiseplan_kalender',
-    'GET /woche/{woche}' => 'speiseplan_woche',
-    'GET /woche/{woche}/{jahr}' => 'speiseplan_woche',
-    'GET /buchen' => 'buchung_formular',
-    'POST /buchen' => 'buchung_erstellen',
-    'GET /meine-buchungen' => 'meine_buchungen',
+    'GET kalender' => 'speiseplan_kalender',
+    'GET woche/{woche}' => 'speiseplan_woche',
+    'GET woche/{woche}/{jahr}' => 'speiseplan_woche',
+    'GET buchen' => 'buchung_formular',
+    'POST buchen' => 'buchung_erstellen',
+    'GET meine-buchungen' => 'meine_buchungen',
     
     // Admin-Routen
     'GET /admin' => 'admin_redirect',
@@ -60,7 +60,7 @@ $routes = [
 // Route finden
 $routeKey = $method . ' ' . $path;
 $action = null;
-
+echo "Route key: $routeKey<br>";
 // Exakte Übereinstimmung suchen
 if (isset($routes[$routeKey])) {
     $action = $routes[$routeKey];
@@ -81,7 +81,8 @@ if (isset($routes[$routeKey])) {
 if ($action === null) {
     $action = 'fehler_404';
 }
-
+//$action = "admin_login";
+error_log("action ist $action");
 // Controller aufrufen
 try {
     switch ($action) {
