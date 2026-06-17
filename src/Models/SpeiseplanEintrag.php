@@ -61,7 +61,9 @@ class SpeiseplanEintrag
     {
         // Erster Donnerstag im Jahr finden
         $date = new \DateTime("$this->jahr-01-01");
-        
+        if ($this->jahr == 2026) {
+            $date = new \DateTime("2026-09-03");
+        }
         // Auf den ersten Donnerstag gehen
         $dayOfWeek = (int)$date->format('N'); // 1=Montag, 4=Donnerstag
         $daysToAdd = (4 - $dayOfWeek + 7) % 7;
@@ -70,7 +72,7 @@ class SpeiseplanEintrag
         // (Woche-1) Wochen hinzufügen
         $date->add(new \DateInterval("P" . ($this->woche - 1) . "W"));
         
-        return $date->format('Y-m-d');
+        return $date->format('d.m.');
     }
 
     /**

@@ -259,6 +259,7 @@ tr:hover {
 /* Jahr-Auswahl */
 .jahr-auswahl {
     margin-bottom: 20px;
+    display:none;
 }
 
 .jahr-auswahl select {

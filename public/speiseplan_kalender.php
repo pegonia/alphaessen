@@ -54,7 +54,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
 <body>
     <div class="container">
         <header>
-            <h1>Alphaessen Speiseplan</h1>
+            <h1>Alphakurs Speiseplan</h1>
             <nav>
                 <a href="/">Startseite</a>
                 <?php if (!empty($email)): ?>
@@ -91,7 +91,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                         <thead>
                             <tr>
                                 <th>Woche</th>
-                                <th>Datum (Donnerstag)</th>
+                                <th>Datum</th>
                                 <th>Hauptgericht (Fleisch)</th>
                                 <th>Hauptgericht (Vegetarisch)</th>
                                 <th>Beilagen</th>
@@ -168,18 +168,10 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                 </div>
             <?php endif; ?>
 
-            <div class="hinweis">
-                <p><strong>Legende:</strong></p>
-                <ul>
-                    <li><span class="status-verfuegbar"></span> = Verfügbar (kann gebucht werden)</li>
-                    <li><span class="status-gebucht"></span> = Gebucht (von jemand anderem)</li>
-                    <li><span class="status-eigene-buchung"></span> = Von Ihnen gebucht</li>
-                </ul>
-            </div>
         </main>
 
         <footer>
-            <p>Alphaessen - Essen für den Alphakurs</p>
+            <p>Essen für den Alphakurs</p>
         </footer>
     </div>
 </body>

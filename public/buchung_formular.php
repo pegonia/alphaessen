@@ -60,7 +60,7 @@ $datum = $speiseplanService->getDatumFuerWoche($woche, $jahr);
 <body>
     <div class="container">
         <header>
-            <h1>Alphaessen Speiseplan</h1>
+            <h1>Alphakurs Speiseplan</h1>
             <nav>
                 <a href="/">Startseite</a>
                 | <a href="/woche/<?php echo $woche; ?>/<?php echo $jahr; ?>">Zurück zur Woche <?php echo $woche; ?></a>

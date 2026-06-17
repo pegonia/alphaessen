@@ -56,7 +56,7 @@ $meineBuchungIds = array_map(function($b) { return $b->speiseplanId; }, $meineBu
 <body>
     <div class="container">
         <header>
-            <h1>Alphaessen Speiseplan</h1>
+            <h1>Alphakurs Speiseplan</h1>
             <nav>
                 <a href="/">Zurück zur Übersicht</a>
                 <?php if (!empty($email)): ?>
