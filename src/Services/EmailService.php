@@ -5,7 +5,7 @@
  * Dieser Service behandelt:
  * - Generierung von E-Mail-Inhalten
  * - Queueing von E-Mails
- * - Versand von E-Mails
+ * - Versand von E-Mails (über PHP mail() oder SMTP)
  */
 
 namespace Alphaessen\Services;
@@ -18,11 +18,17 @@ class EmailService
 {
     private EmailQueueRepository $emailQueueRepository;
     private array $emailConfig;
+    private ?SmtpService $smtpService = null;
 
     public function __construct(EmailQueueRepository $emailQueueRepository, array $emailConfig)
     {
         $this->emailQueueRepository = $emailQueueRepository;
         $this->emailConfig = $emailConfig;
+        
+        // SMTP-Service initialisieren, falls SMTP als Transport konfiguriert ist
+        if (($emailConfig['transport'] ?? 'mail') === 'smtp') {
+            $this->smtpService = new SmtpService($emailConfig['smtp'] ?? []);
+        }
     }
 
     /**
@@ -109,9 +115,11 @@ class EmailService
     public function sendeEmail(string $empfaenger, string $betreff, string $nachricht): bool
     {
         $from = $this->emailConfig['from'];
+        $fromString = $from['name'] . ' <' . $from['email'] . '>';
         
+        // Header für mail() Funktion
         $headers = [
-            'From: ' . $from['name'] . ' <' . $from['email'] . '>',
+            'From: ' . $fromString,
             'Reply-To: ' . $from['email'],
         ];
 
@@ -120,10 +128,26 @@ class EmailService
             $headers[] = "{$key}: {$value}";
         }
 
-        $headersString = implode("\r\n", $headers);
-
-        // E-Mail senden
-        $erfolg = mail($empfaenger, $betreff, $nachricht, $headersString);
+        // SMTP oder mail() verwenden
+        if ($this->smtpService !== null) {
+            // SMTP-Versand
+            $headersForSmtp = [];
+            foreach ($this->emailConfig['headers'] as $key => $value) {
+                $headersForSmtp[$key] = $value;
+            }
+            
+            $erfolg = $this->smtpService->send(
+                $fromString,
+                $empfaenger,
+                $betreff,
+                $nachricht,
+                $headersForSmtp
+            );
+        } else {
+            // PHP mail() Funktion
+            $headersString = implode("\r\n", $headers);
+            $erfolg = mail($empfaenger, $betreff, $nachricht, $headersString);
+        }
 
         // Fehler loggen
         if (!$erfolg) {
