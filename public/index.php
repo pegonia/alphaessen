@@ -60,7 +60,7 @@ $routes = [
 // Route finden
 $routeKey = $method . ' ' . $path;
 $action = null;
-echo "Route key: $routeKey<br>";
+// echo "Route key: $routeKey<br>";
 // Exakte Übereinstimmung suchen
 if (isset($routes[$routeKey])) {
     $action = $routes[$routeKey];
@@ -77,12 +77,12 @@ if (isset($routes[$routeKey])) {
     }
 }
 
+//error_log("action ist $action");
 // Standard-Route
 if ($action === null) {
     $action = 'fehler_404';
 }
 //$action = "admin_login";
-error_log("action ist $action");
 // Controller aufrufen
 try {
     switch ($action) {

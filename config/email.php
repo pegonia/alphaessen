@@ -7,12 +7,12 @@
 return [
     // Absender-Informationen
     'from' => [
-        'email' => 'alphaessen@Ihre-Gemeinde.de',
+        'email' => 'alphaessen@nathanaelgemeinde.de',
         'name' => 'Alphaessen Team',
     ],
     
     // Empfänger für Fehlerbenachrichtigungen
-    'error_recipient' => 'admin@Ihre-Gemeinde.de',
+    'error_recipient' => 'lukasz-alphaessenerror@kopinke.net',
     
     // E-Mail-Einstellungen
     'use_mail_function' => true,  // true = PHP mail(), false = SMTP (nicht implementiert)

@@ -5,8 +5,8 @@
     RewriteEngine On
     
     # Redirect to HTTPS if available
-    #RewriteCond %{HTTPS} off
-    #RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     
     # Block access to non-public directories
     RewriteRule ^(src|config|storage|cron|scripts) - [F,L]
@@ -34,6 +34,7 @@
 
 # Disable directory listing
 Options -Indexes
+Options -MultiViews
 
 # Deny access to sensitive files
 # Deny access to sensitive files (allow PHP)
