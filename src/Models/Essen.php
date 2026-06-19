@@ -11,18 +11,18 @@ class Essen
     public const TYP_HAUPTGERICHT_VEGETARISCH = 'Hauptgericht_Vegetarisch';
     public const TYP_BEILAGE = 'Beilage';
     public const TYP_BROT = 'Brot';
-    public const TYP_KAESE = 'Käse';
-    public const TYP_WURST = 'Wurst';
-    public const TYP_NACHTISCH = 'Nachtisch';
+    public const TYP_KUCHEN = 'Käse';
+    public const TYP_SONSTIGES = 'Wurst';
+    public const TYP_DESSERT = 'Nachtisch';
 
     public const ALLE_TYPEN = [
         self::TYP_HAUPTGERICHT_FLEISCH,
         self::TYP_HAUPTGERICHT_VEGETARISCH,
         self::TYP_BEILAGE,
         self::TYP_BROT,
-        self::TYP_KAESE,
-        self::TYP_WURST,
-        self::TYP_NACHTISCH,
+        self::TYP_KUCHEN,
+        self::TYP_SONSTIGES,
+        self::TYP_DESSERT,
     ];
 
     public int $id;
@@ -87,10 +87,10 @@ class Essen
             self::TYP_HAUPTGERICHT_FLEISCH => 'Hauptgericht (Fleisch)',
             self::TYP_HAUPTGERICHT_VEGETARISCH => 'Hauptgericht (Vegetarisch)',
             self::TYP_BEILAGE => 'Beilage',
-            self::TYP_BROT => 'Brot',
-            self::TYP_KAESE => 'Käse',
-            self::TYP_WURST => 'Wurst',
-            self::TYP_NACHTISCH => 'Nachtisch',
+            self::TYP_BROT => 'Brotzeit',
+            self::TYP_KUCHEN => 'Kuchen',
+            self::TYP_SONSTIGES => 'Sonstiges',
+            self::TYP_DESSERT => 'Dessert',
             default => $this->typ,
         };
     }

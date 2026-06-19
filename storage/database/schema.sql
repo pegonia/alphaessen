@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS nutzer (
 CREATE TABLE IF NOT EXISTS essen (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    typ TEXT NOT NULL CHECK(typ IN ('Hauptgericht_Fleisch', 'Hauptgericht_Vegetarisch', 'Beilage','Vorspeise','Brot', 'Käse', 'Wurst', 'Nachtisch')),
+    typ TEXT NOT NULL CHECK(typ IN ('Hauptgericht_Fleisch', 'Hauptgericht_Vegetarisch', 'Beilage','Vorspeise','Brotzeit', 'Kuchen', 'Dessert','Sonstiges')),
     beschreibung TEXT,
     erstellt_am DATETIME DEFAULT CURRENT_TIMESTAMP,
     aktiv BOOLEAN DEFAULT TRUE
