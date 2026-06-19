@@ -121,7 +121,8 @@ class EmailService
         }
 
         $headersString = implode("\r\n", $headers);
-
+        //
+        $betreff = mb_encode_mimeheader($betreff, "UTF-8", "Q");
         // E-Mail senden
         $erfolg = mail($empfaenger, $betreff, $nachricht, $headersString);
 
