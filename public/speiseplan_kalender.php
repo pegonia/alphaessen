@@ -124,12 +124,12 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                         case 'Beilage':
                                             $beilagen[] = $eintrag;
                                             break;
-                                        case 'Brot':
-                                        case 'Käse':
-                                        case 'Wurst':
+                                        case 'Brotzeit':
+                                        case 'Sonstiges':
                                             $brotKaeseWurst[] = $eintrag;
                                             break;
-                                        case 'Nachtisch':
+                                        case 'Dessert':
+                                        case 'Kuchen':
                                             $nachtisch[] = $eintrag;
                                             break;
                                     }
@@ -159,7 +159,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                 echo "  <td class=\"{$statusBeilagen}\">" . formatEintraege($beilagen, $gebucht, $email) . "</td>\n";
                                 echo "  <td class=\"{$statusBrotKaeseWurst}\">" . formatEintraege($brotKaeseWurst, $gebucht, $email) . "</td>\n";
                                 echo "  <td class=\"{$statusNachtisch}\">" . formatEintraege($nachtisch, $gebucht, $email) . "</td>\n";
-                                echo "  <td><a href=\"/woche/{$woche}/{$jahr}\" class=\"button\">Details</a></td>\n";
+                                echo "  <td><a href=\"/woche/{$woche}/{$jahr}\" class=\"button\">Buchen</a></td>\n";
                                 echo "</tr>\n";
                                 ?>
                             <?php endforeach; ?>
