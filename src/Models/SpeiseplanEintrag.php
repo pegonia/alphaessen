@@ -76,15 +76,6 @@ class SpeiseplanEintrag
     }
 
     /**
-     * Gibt das Datum im deutschen Format zurück
-     */
-    public function getDatumDeutsch(): string
-    {
-        $date = new \DateTime($this->getDatum());
-        return $date->format('d.m.Y');
-    }
-
-    /**
      * Gibt den Wochentag-Namen zurück (sollte immer "Donnerstag" sein)
      */
     public function getWochentag(): string

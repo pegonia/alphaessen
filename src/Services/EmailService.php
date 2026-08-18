@@ -33,7 +33,7 @@ class EmailService
      */
     public function queueBestaetigung(Buchung $buchung): EmailQueue
     {
-        $datum = $buchung->getDatumDeutsch();
+        $datum = $buchung->getDatum();
         $essenName = $buchung->speiseplanEintrag->essen->name;
         $essenTyp = $buchung->speiseplanEintrag->essen->getTypAnzeige();
         $woche = $buchung->speiseplanEintrag->woche;
@@ -65,7 +65,7 @@ class EmailService
      */
     public function queueErinnerung(Buchung $buchung): EmailQueue
     {
-        $datum = $buchung->getDatumDeutsch();
+        $datum = $buchung->getDatum();
         $woche = $buchung->speiseplanEintrag->woche;
 
         $betreff = str_replace('{Datum}', $datum, $this->emailConfig['subjects']['erinnerung']);

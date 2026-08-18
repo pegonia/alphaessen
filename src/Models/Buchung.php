@@ -96,11 +96,4 @@ class Buchung
         return $this->speiseplanEintrag->getDatum();
     }
 
-    /**
-     * Gibt das Datum im deutschen Format zurück
-     */
-    public function getDatumDeutsch(): string
-    {
-        return $this->speiseplanEintrag->getDatumDeutsch();
-    }
 }
