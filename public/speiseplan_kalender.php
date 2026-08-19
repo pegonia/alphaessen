@@ -159,7 +159,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                 echo "  <td class=\"{$statusBeilagen}\">" . formatEintraege($beilagen, $gebucht, $email) . "</td>\n";
                                 echo "  <td class=\"{$statusBrotKaeseWurst}\">" . formatEintraege($brotKaeseWurst, $gebucht, $email) . "</td>\n";
                                 echo "  <td class=\"{$statusNachtisch}\">" . formatEintraege($nachtisch, $gebucht, $email) . "</td>\n";
-                                echo "  <td><a href=\"/woche/{$woche}/{$jahr}\" class=\"button\">Buchen</a></td>\n";
+                                echo "  <td><a href=\"/woche/{$woche}/{$jahr}\" class=\"button\">Ein Essen übernehmen</a></td>\n";
                                 echo "</tr>\n";
                                 ?>
                             <?php endforeach; ?>
