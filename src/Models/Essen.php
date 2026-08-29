@@ -10,10 +10,10 @@ class Essen
     public const TYP_HAUPTGERICHT_FLEISCH = 'Hauptgericht_Fleisch';
     public const TYP_HAUPTGERICHT_VEGETARISCH = 'Hauptgericht_Vegetarisch';
     public const TYP_BEILAGE = 'Beilage';
-    public const TYP_BROT = 'Brot';
-    public const TYP_KUCHEN = 'Käse';
-    public const TYP_SONSTIGES = 'Wurst';
-    public const TYP_DESSERT = 'Nachtisch';
+    public const TYP_BROT = 'Brotzeit';
+    public const TYP_KUCHEN = 'Kuchen';
+    public const TYP_SONSTIGES = 'Sonstiges';
+    public const TYP_DESSERT = 'Dessert';
 
     public const ALLE_TYPEN = [
         self::TYP_HAUPTGERICHT_FLEISCH,
