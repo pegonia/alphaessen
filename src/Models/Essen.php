@@ -63,6 +63,14 @@ class Essen
         );
     }
 
+
+    public function short_name(): string {
+        if ($this->name) {
+            return substr($this->name, 0, 20);
+        }
+        return "";
+    }
+
     /**
      * Gibt die Daten als Array zurück (für Datenbank-Operationen)
      */

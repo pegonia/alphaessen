@@ -99,7 +99,7 @@ $meineBuchungIds = array_map(function($b) { return $b->speiseplanId; }, $meineBu
                                     $buchungen = $gebucht[$eintrag->id];
                                     $bucher = [];
                                     foreach ($buchungen as $buchung) {
-                                        $bucher[] = htmlspecialchars($buchung->nutzer->email, ENT_QUOTES, 'UTF-8');
+                                        $bucher[] = htmlspecialchars($buchung->nutzer->short_email(), ENT_QUOTES, 'UTF-8');
                                     }
                                     $status = 'Gebucht von: ' . implode(', ', $bucher);
                                     $statusClass = 'status-gebucht';

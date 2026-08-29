@@ -175,6 +175,21 @@ class BuchungService
         return $gebucht;
     }
 
+    public function getOffeneEssenFuerWoche(int $woche, int $jahr): array
+    {
+        $geplanteEssen = $this->speiseplanRepository->findeNachWocheUndJahr($woche, $jahr);
+        $offen = [];
+
+        foreach ($geplanteEssen as $eintrag) {
+            $buchungen = $this->buchungRepository->findeNachSpeiseplan($eintrag->id);
+            if (empty($buchungen)) {
+                $offen[$eintrag->id] = $eintrag;
+            }
+        }
+
+        return $offen;
+    }
+
     /**
      * Löscht eine Buchung
      * 

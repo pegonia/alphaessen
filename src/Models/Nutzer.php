@@ -18,6 +18,15 @@ class Nutzer
         $this->erstelltAm = $erstelltAm;
     }
 
+    public function short_email(): string {
+        if ($this->email) {
+            $teile = explode('@', $this->email);
+            $gekuerzt = $teile[0];
+            return substr($gekuerzt, 0, 10);
+        }
+        return "";
+    }
+
     /**
      * Erstellt ein Nutzer-Objekt aus einem Datenbank-Array
      */

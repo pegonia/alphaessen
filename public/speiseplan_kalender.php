@@ -142,14 +142,14 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                 // Gebuchte Essen für diese Woche
                                 $gebucht = $buchungService->getGebuchteEssenFuerWoche($woche, $jahr);
                                 $gebuchtIds = array_keys($gebucht);
-                                
                                 // Status für jede Essensgruppe
-                                $statusFleisch = getStatusForEintraege($hauptgerichtFleisch, $verfuegbarIds, $gebuchtIds, $email);
-                                $statusVegetarisch = getStatusForEintraege($hauptgerichtVegetarisch, $verfuegbarIds, $gebuchtIds, $email);
-                                $statusBeilagen = getStatusForEintraege($beilagen, $verfuegbarIds, $gebuchtIds, $email);
-                                $statusBrotKaeseWurst = getStatusForEintraege($brotKaeseWurst, $verfuegbarIds, $gebuchtIds, $email);
-                                $statusNachtisch = getStatusForEintraege($nachtisch, $verfuegbarIds, $gebuchtIds, $email);
-                                
+                                $offen = $buchungService->getOffeneEssenFuerWoche($woche, $jahr);
+                                $offenIds = array_keys($offen);
+                                $statusFleisch = getStatusForEintraege($hauptgerichtFleisch, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
+                                $statusVegetarisch = getStatusForEintraege($hauptgerichtVegetarisch, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
+                                $statusBeilagen = getStatusForEintraege($beilagen, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
+                                $statusBrotKaeseWurst = getStatusForEintraege($brotKaeseWurst, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
+                                $statusNachtisch = getStatusForEintraege($nachtisch, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
                                 // Zeile ausgeben
                                 echo "<tr>\n";
                                 echo "  <td>{$woche}</td>\n";
@@ -181,19 +181,17 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
 /**
  * Hilfsfunktion: Bestimmt den Status für eine Gruppe von Einträgen
  */
-function getStatusForEintraege(array $eintraege, array $verfuegbarIds, array $gebuchtIds, string $email): string
+function getStatusForEintraege(array $eintraege, array $verfuegbarIds, array $gebuchtIds, array $offenIds, string $email): string
 {
+    return 'status-lee';
     if (empty($eintraege)) {
         return 'status-leer';
     }
-    
     // Prüfen, ob alle Einträge verfügbar sind
-    $alleVerfuegbar = true;
-    $hatEigeneBuchung = false;
-    
+    $alleGebucht = true;
     foreach ($eintraege as $eintrag) {
-        if (!in_array($eintrag->id, $verfuegbarIds)) {
-            $alleVerfuegbar = false;
+        if (in_array($eintrag->id, $offenIds)) {
+            $alleGebucht = false;
         }
         
         // Prüfen, ob der Nutzer für diesen Eintrag gebucht hat
@@ -206,16 +204,13 @@ function getStatusForEintraege(array $eintraege, array $verfuegbarIds, array $ge
             }
         }
     }
-    
-    if ($hatEigeneBuchung) {
-        return 'status-eigene-buchung';
+
+    if ($alleGebucht) {
+        return 'status-gebucht';
+    } else {
+        return "status-verfuegbar";
     }
-    
-    if ($alleVerfuegbar) {
-        return 'status-verfuegbar';
-    }
-    
-    return 'status-gebucht';
+
 }
 
 /**
@@ -229,24 +224,31 @@ function formatEintraege(array $eintraege, array $gebucht, string $email): strin
     
     $parts = [];
     foreach ($eintraege as $eintrag) {
-        $name = htmlspecialchars($eintrag->essen->name, ENT_QUOTES, 'UTF-8');
-        
+
         // Prüfen, ob dieser Eintrag gebucht ist
+        $bucher_eintrag = "";
         if (isset($gebucht[$eintrag->id])) {
+            $status = "status-gebucht";
             $buchungen = $gebucht[$eintrag->id];
             $bucher = [];
             foreach ($buchungen as $buchung) {
                 if ($buchung->nutzer->email === $email) {
                     $bucher[] = 'Sie';
                 } else {
-                    $bucher[] = htmlspecialchars($buchung->nutzer->email, ENT_QUOTES, 'UTF-8');
+                    $bucher[] = htmlspecialchars($buchung->nutzer->short_email(), ENT_QUOTES, 'UTF-8');
                 }
             }
-            $name .= ' (' . implode(', ', $bucher) . ')';
+            $bucher_eintrag= ' (' . implode(', ', $bucher) . ')';
+        } else {
+            $status = "status-verfuegbar";
         }
+        $name = "<span title=\"".$eintrag->essen->name."\" class=\"$status\">";
+        $name .= htmlspecialchars($eintrag->essen->short_name(), ENT_QUOTES, 'UTF-8');
+        $name .= $bucher_eintrag;
+        $name .= "</span>";
         
         $parts[] = $name;
     }
     
-    return implode(', ', $parts);
+    return implode('<br>', $parts);
 }
