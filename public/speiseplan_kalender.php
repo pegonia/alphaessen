@@ -92,6 +92,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                             <tr>
                                 <th>Woche</th>
                                 <th>Datum</th>
+                                <th>Vorspeise</th>
                                 <th>Hauptgericht (Fleisch)</th>
                                 <th>Hauptgericht (Vegetarisch)</th>
                                 <th>Beilagen</th>
@@ -107,6 +108,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                 $datum = $speiseplanService->getDatumFuerWoche($woche, $jahr);
                                 
                                 // Essen nach Typen gruppieren
+                                $vorspeise = [];
                                 $hauptgerichtFleisch = [];
                                 $hauptgerichtVegetarisch = [];
                                 $beilagen = [];
@@ -132,6 +134,9 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                         case 'Kuchen':
                                             $nachtisch[] = $eintrag;
                                             break;
+                                        case 'Vorspeise':
+                                            $vorspeise[] = $eintrag;
+                                            break;
                                     }
                                 }
                                 
@@ -145,6 +150,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                 // Status für jede Essensgruppe
                                 $offen = $buchungService->getOffeneEssenFuerWoche($woche, $jahr);
                                 $offenIds = array_keys($offen);
+                                $statusVorspeise = getStatusForEintraege($vorspeise, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
                                 $statusFleisch = getStatusForEintraege($hauptgerichtFleisch, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
                                 $statusVegetarisch = getStatusForEintraege($hauptgerichtVegetarisch, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
                                 $statusBeilagen = getStatusForEintraege($beilagen, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
@@ -154,6 +160,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                 echo "<tr>\n";
                                 echo "  <td>{$woche}</td>\n";
                                 echo "  <td>{$datum}</td>\n";
+                                echo "  <td class=\"{$statusVorspeise}\">" . formatEintraege($vorspeise, $gebucht, $email) . "</td>\n";
                                 echo "  <td class=\"{$statusFleisch}\">" . formatEintraege($hauptgerichtFleisch, $gebucht, $email) . "</td>\n";
                                 echo "  <td class=\"{$statusVegetarisch}\">" . formatEintraege($hauptgerichtVegetarisch, $gebucht, $email) . "</td>\n";
                                 echo "  <td class=\"{$statusBeilagen}\">" . formatEintraege($beilagen, $gebucht, $email) . "</td>\n";
