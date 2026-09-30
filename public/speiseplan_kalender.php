@@ -158,15 +158,15 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
                                 $statusNachtisch = getStatusForEintraege($nachtisch, $verfuegbarIds, $gebuchtIds, $offenIds, $email);
                                 // Zeile ausgeben
                                 echo "<tr>\n";
-                                echo "  <td>{$woche}</td>\n";
-                                echo "  <td>{$datum}</td>\n";
-                                echo "  <td class=\"{$statusVorspeise}\">" . formatEintraege($vorspeise, $gebucht, $email) . "</td>\n";
-                                echo "  <td class=\"{$statusFleisch}\">" . formatEintraege($hauptgerichtFleisch, $gebucht, $email) . "</td>\n";
-                                echo "  <td class=\"{$statusVegetarisch}\">" . formatEintraege($hauptgerichtVegetarisch, $gebucht, $email) . "</td>\n";
-                                echo "  <td class=\"{$statusBeilagen}\">" . formatEintraege($beilagen, $gebucht, $email) . "</td>\n";
-                                echo "  <td class=\"{$statusBrotKaeseWurst}\">" . formatEintraege($brotKaeseWurst, $gebucht, $email) . "</td>\n";
-                                echo "  <td class=\"{$statusNachtisch}\">" . formatEintraege($nachtisch, $gebucht, $email) . "</td>\n";
-                                echo "  <td><a href=\"/woche/{$woche}/{$jahr}\" class=\"button\">Ein Essen übernehmen</a></td>\n";
+                                echo "  <td data-label=\"Woche\">{$woche}</td>\n";
+                                echo "  <td data-label=\"Datum\">{$datum}</td>\n";
+                                echo "  <td class=\"{$statusVorspeise}\" data-label=\"Vorspeise\">" . formatEintraege($vorspeise, $gebucht, $email) . "</td>\n";
+                                echo "  <td class=\"{$statusFleisch}\" data-label=\"Hauptgericht (Fleisch)\">" . formatEintraege($hauptgerichtFleisch, $gebucht, $email) . "</td>\n";
+                                echo "  <td class=\"{$statusVegetarisch}\" data-label=\"Hauptgericht (Vegetarisch)\">" . formatEintraege($hauptgerichtVegetarisch, $gebucht, $email) . "</td>\n";
+                                echo "  <td class=\"{$statusBeilagen}\" data-label=\"Beilagen\">" . formatEintraege($beilagen, $gebucht, $email) . "</td>\n";
+                                echo "  <td class=\"{$statusBrotKaeseWurst}\" data-label=\"Brot/Käse/Wurst\">" . formatEintraege($brotKaeseWurst, $gebucht, $email) . "</td>\n";
+                                echo "  <td class=\"{$statusNachtisch}\" data-label=\"Nachtisch\">" . formatEintraege($nachtisch, $gebucht, $email) . "</td>\n";
+                                echo "  <td data-label=\"Aktionen\"><a href=\"/woche/{$woche}/{$jahr}\" class=\"button\">Ein Essen übernehmen</a></td>\n";
                                 echo "</tr>\n";
                                 ?>
                             <?php endforeach; ?>

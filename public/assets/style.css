@@ -453,13 +453,77 @@ footer {
         font-size: 1.2rem;
     }
 
+    /* Speiseplan-Kalender: Tabellenzeilen werden zu Karten */
     .speiseplan-kalender {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
-    .speiseplan-kalender th,
+    .speiseplan-kalender thead {
+        display: none;
+    }
+
+    .speiseplan-kalender tr {
+        display: block;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        padding: 5px 0;
+        background-color: #fff;
+    }
+
     .speiseplan-kalender td {
-        padding: 5px;
+        display: block;
+        padding: 6px 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .speiseplan-kalender td:last-child {
+        border-bottom: none;
+    }
+
+    /* Kopf der Karte: Woche und Datum in einer Zeile */
+    .speiseplan-kalender td[data-label="Woche"] {
+        display: inline-block;
+        padding: 10px 12px 4px;
+        border-bottom: none;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .speiseplan-kalender td[data-label="Woche"]::before {
+        content: "Woche ";
+    }
+
+    .speiseplan-kalender td[data-label="Datum"] {
+        display: inline-block;
+        padding: 10px 12px 4px;
+        border-bottom: none;
+        color: #666;
+    }
+
+    /* Feldbezeichnung über dem Inhalt */
+    .speiseplan-kalender td[data-label="Vorspeise"]::before,
+    .speiseplan-kalender td[data-label="Hauptgericht (Fleisch)"]::before,
+    .speiseplan-kalender td[data-label="Hauptgericht (Vegetarisch)"]::before,
+    .speiseplan-kalender td[data-label="Beilagen"]::before,
+    .speiseplan-kalender td[data-label="Brot/Käse/Wurst"]::before,
+    .speiseplan-kalender td[data-label="Nachtisch"]::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: bold;
+        font-size: 0.75rem;
+        color: #888;
+    }
+
+    /* Aktions-Button über die volle Kartenbreite */
+    .speiseplan-kalender td[data-label="Aktionen"] {
+        padding: 10px 12px;
+    }
+
+    .speiseplan-kalender td[data-label="Aktionen"] .button {
+        display: block;
+        text-align: center;
+        margin: 0;
     }
 
     .button {
