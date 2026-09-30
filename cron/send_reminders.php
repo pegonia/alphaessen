@@ -35,7 +35,7 @@ $speiseplanRepository = new SpeiseplanRepository($essenRepository);
 $nutzerRepository = new NutzerRepository();
 $buchungRepository = new BuchungRepository($nutzerRepository, $speiseplanRepository);
 $emailQueueRepository = new EmailQueueRepository();
-$emailService = new EmailService($emailQueueRepository, $emailConfig);
+$emailService = new EmailService($emailQueueRepository, $emailConfig, $buchungRepository);
 $speiseplanService = new SpeiseplanService($speiseplanRepository, $essenRepository);
 $buchungService = new BuchungService($buchungRepository, $nutzerRepository, $speiseplanRepository, $emailQueueRepository, $emailService);
 
@@ -53,10 +53,10 @@ try {
     $aktuellesJahr = (int)date('Y');
     $alleEintraege = $speiseplanRepository->findeNachJahr($aktuellesJahr);
     
-    // Nach Datum filtern
+    // Nach Datum filtern (getDatumIso liefert YYYY-MM-DD, passend zu $morgenDatum)
     $morgenEintraege = [];
     foreach ($alleEintraege as $eintrag) {
-        if ($eintrag->getDatum() === $morgenDatum) {
+        if ($eintrag->getDatumIso() === $morgenDatum) {
             $morgenEintraege[] = $eintrag;
         }
     }

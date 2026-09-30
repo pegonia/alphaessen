@@ -12,17 +12,23 @@ namespace Alphaessen\Services;
 
 use Alphaessen\Models\Buchung;
 use Alphaessen\Models\EmailQueue;
+use Alphaessen\Repositories\BuchungRepository;
 use Alphaessen\Repositories\EmailQueueRepository;
 
 class EmailService
 {
     private EmailQueueRepository $emailQueueRepository;
     private array $emailConfig;
+    private ?BuchungRepository $buchungRepository;
 
-    public function __construct(EmailQueueRepository $emailQueueRepository, array $emailConfig)
-    {
+    public function __construct(
+        EmailQueueRepository $emailQueueRepository,
+        array $emailConfig,
+        ?BuchungRepository $buchungRepository = null
+    ) {
         $this->emailQueueRepository = $emailQueueRepository;
         $this->emailConfig = $emailConfig;
+        $this->buchungRepository = $buchungRepository;
     }
 
     /**
@@ -177,13 +183,19 @@ class EmailService
      */
     private function getBuchungenDesNutzersFuerAbend(string $email, int $woche, int $jahr): array
     {
-        // Diese Methode sollte eigentlich im BuchungService sein,
-        // aber wir haben hier keinen Zugriff darauf.
-        // Für jetzt eine einfache Implementierung:
-        // In einer echten Anwendung würden wir die Abhängigkeit injizieren.
-        
-        // TODO: Refactoring - BuchungService injizieren
-        return [];
+        if ($this->buchungRepository === null) {
+            return [];
+        }
+
+        $alle = $this->buchungRepository->findeNachWocheUndJahr($woche, $jahr);
+        $ergebnis = [];
+        foreach ($alle as $buchung) {
+            if (strcasecmp($buchung->nutzer->email, $email) === 0) {
+                $ergebnis[] = $buchung;
+            }
+        }
+
+        return $ergebnis;
     }
 
     /**
