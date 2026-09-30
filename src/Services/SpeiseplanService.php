@@ -193,13 +193,26 @@ class SpeiseplanService
      * 
      * @param int $woche Die Woche
      * @param int $jahr Das Jahr
-     * @return string Das Datum im Format YYYY-MM-DD
+     * @return string Das Datum im Format DD.MM.
      */
     public function getDatumFuerWoche(int $woche, int $jahr): string
     {
         // Erstelle einen temporären SpeiseplanEintrag, um das Datum zu berechnen
         $tempEintrag = new SpeiseplanEintrag(0, $woche, $jahr, 0, new Essen(0, '', '', null, '', true));
         return $tempEintrag->getDatum();
+    }
+
+    /**
+     * Gibt das Datum für eine bestimmte Woche und Jahr im ISO-Format zurück
+     * 
+     * @param int $woche Die Woche
+     * @param int $jahr Das Jahr
+     * @return string Das Datum im Format YYYY-MM-DD
+     */
+    public function getDatumIsoFuerWoche(int $woche, int $jahr): string
+    {
+        $tempEintrag = new SpeiseplanEintrag(0, $woche, $jahr, 0, new Essen(0, '', '', null, '', true));
+        return $tempEintrag->getDatumIso();
     }
 
     /**

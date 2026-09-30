@@ -55,9 +55,9 @@ class SpeiseplanEintrag
     }
 
     /**
-     * Gibt das Datum des Donnerstags für diese Woche zurück
+     * Berechnet den Donnerstag dieser Woche als DateTime-Objekt
      */
-    public function getDatum(): string
+    private function berechneDatum(): \DateTime
     {
         // Erster Donnerstag im Jahr finden
         $date = new \DateTime("$this->jahr-01-01");
@@ -68,11 +68,27 @@ class SpeiseplanEintrag
         $dayOfWeek = (int)$date->format('N'); // 1=Montag, 4=Donnerstag
         $daysToAdd = (4 - $dayOfWeek + 7) % 7;
         $date->add(new \DateInterval("P{$daysToAdd}D"));
-        
+
         // (Woche-1) Wochen hinzufügen
         $date->add(new \DateInterval("P" . ($this->woche - 1) . "W"));
-        
-        return $date->format('d.m.');
+
+        return $date;
+    }
+
+    /**
+     * Gibt das Datum des Donnerstags für diese Woche zurück
+     */
+    public function getDatum(): string
+    {
+        return $this->berechneDatum()->format('d.m.');
+    }
+
+    /**
+     * Gibt das Datum des Donnerstags für diese Woche im Format YYYY-MM-DD zurück
+     */
+    public function getDatumIso(): string
+    {
+        return $this->berechneDatum()->format('Y-m-d');
     }
 
     /**

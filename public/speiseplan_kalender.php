@@ -39,6 +39,14 @@ if (empty($wochen)) {
     $wochen = range(1, 12);
 }
 
+// Für das laufende und zukünftige Jahre: Wochen vor heute ausblenden
+if ($jahr >= (int)date('Y')) {
+    $heute = date('Y-m-d');
+    $wochen = array_values(array_filter($wochen, function ($woche) use ($speiseplanService, $jahr, $heute) {
+        return $speiseplanService->getDatumIsoFuerWoche($woche, $jahr) >= $heute;
+    }));
+}
+
 // E-Mail aus Session oder Request für "Meine Buchungen" Link
 $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
 
@@ -49,7 +57,7 @@ $email = $_GET['email'] ?? ($_SESSION['nutzer_email'] ?? '');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alphaessen - Speiseplan</title>
-    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/style.css?v=<?php echo filemtime(__DIR__ . '/assets/style.css'); ?>">
 </head>
 <body>
     <div class="container">
